@@ -31,6 +31,8 @@ Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'rking/ag.vim' " the silver searcher
 Plugin 'a.vim' " Alternate files quickly (header/implementation etc...)
 Plugin 'Chiel92/vim-autoformat' " Provide easy code formatting in Vim by integrating existing code formatters.
+Plugin 'octol/vim-cpp-enhanced-highlight' " smarter c++ highlight
+Plugin 'scrooloose/syntastic.git' " check syntax
 " }}}
 
 
@@ -96,6 +98,19 @@ let g:formatters_cpp = ['myclangformat']
 :map <leader>hv :AV<Enter>
 :map <leader>hi :IHT<Enter>
 :noremap <F5> :Autoformat<CR>
+" }}}
+
+
+"---------- Syntastic settings {{{
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_checkers = ['clang_check']
+let g:syntastic_cpp_clang_check_args = ' -std=c++11 -stdlib=libc++'
 " }}}
 
 
