@@ -33,6 +33,7 @@ Plugin 'a.vim' " Alternate files quickly (header/implementation etc...)
 Plugin 'Chiel92/vim-autoformat' " Provide easy code formatting in Vim by integrating existing code formatters.
 Plugin 'octol/vim-cpp-enhanced-highlight' " smarter c++ highlight
 Plugin 'scrooloose/syntastic.git' " check syntax
+Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
 " }}}
 
 
@@ -45,6 +46,8 @@ filetype plugin indent on    " required
 
 "---------- Standard Vim settings {{{
 set list lcs=trail:·,tab:»·,eol:↵
+" VERY IMPORTANT!!!! when changing size of tabs, remember to change
+" autoformat tabs too
 set tabstop=4     " a tab is four spaces
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set softtabstop=4 " TODO: to be commented
@@ -75,29 +78,25 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 
 "---------- Airline settings {{{
-let g:airline#extensions#tabline#enabled = 1
+			\s
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#fnamemod = ':p:t'
+let g:airline#extensions#tabline#fnametruncate = 16
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
 " }}}
 
 
 "---------- autoformat settings {{{
 let g:autoformat_verbosemode=1
-let g:formatdef_myclangformat = "'clang-format -style=llvm AllowShortIfStatementsOnASingleLine=true AlwaysBreakTemplateDeclarations=true Standard=C++11 BreakBeforeBraces=Stroustrup NamespaceIndentation=None IndentWidth='&tabstop"
+let g:formatdef_myclangformat = "'clang-format -style=llvm AllowShortIfStatementsOnASingleLine=true AlwaysBreakTemplateDeclarations=true Standard=C++11 BreakBeforeBraces=Stroustrup NamespaceIndentation=None IndentWidth=4'"
 let g:formatters_cpp = ['myclangformat']
 " let g:autoformat_autoindent = 0
 " let g:autoformat_retab = 0
 " let g:autoformat_remove_trailing_spaces = 0
 " -style=google IndentWidth=4 NamespaceIndentation=None'"
 " let g:formatter_clang-format_style= 'llvm'
-" }}}
-
-
-"---------- NERDTree settings {{{
-:map <leader>s :w<Enter>
-:map <leader>x :q<Enter>
-:map <leader>hv :AV<Enter>
-:map <leader>hi :IHT<Enter>
-:noremap <F5> :Autoformat<CR>
 " }}}
 
 
@@ -114,4 +113,15 @@ let g:syntastic_cpp_clang_check_args = ' -std=c++11 -stdlib=libc++'
 " }}}
 
 
+"---------- Syntastic settings {{{
+let g:ycm_global_ycm_extra_conf = '~/.vim/'
+" }}}
 
+
+"---------- shortcut settings {{{
+:map <leader>s :w<Enter>		" to save file
+:map <leader>x :q!<Enter>		" to close file
+:map <leader>hv :AV<Enter>		" a:  shortcut to switch to header file
+:map <leader>hi :IHT<Enter>		" a:  shortcut to open file over cursor
+:noremap <F5> :Autoformat<CR>	" autoformat: shortcut to autoformat file
+" }}}
