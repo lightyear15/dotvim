@@ -71,6 +71,15 @@ set nowritebackup
 " }}}
 
 
+"---------- autoreload vimrc on changes {{{
+" $MYVIMRC (~/.vimrc) and $MYGVIMRC (~/.gvimrc) must exists or an error will appear
+augroup AutoreloadVimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc nested so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+" }}}
+
+
 "---------- NERDTree settings {{{
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -89,9 +98,11 @@ let g:airline_powerline_fonts = 1
 
 
 "---------- autoformat settings {{{
-let g:autoformat_verbosemode=1
-let g:formatdef_myclangformat = "'clang-format -style=llvm AllowShortIfStatementsOnASingleLine=true AlwaysBreakTemplateDeclarations=true Standard=C++11 BreakBeforeBraces=Stroustrup NamespaceIndentation=None IndentWidth=4'"
-let g:formatters_cpp = ['myclangformat']
+let g:formatdef_clangformat_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=llvm'"
+let g:formatters_cpp = ['clangformat_cpp']
+
+" let g:formatdef_myclangformat = "'clang-format -style=llvm AllowShortIfStatementsOnASingleLine=true AlwaysBreakTemplateDeclarations=true Standard=C++11 BreakBeforeBraces=Stroustrup  '"
+" let g:formatters_cpp = ['myclangformat']
 " let g:autoformat_autoindent = 0
 " let g:autoformat_retab = 0
 " let g:autoformat_remove_trailing_spaces = 0
