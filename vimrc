@@ -98,16 +98,8 @@ let g:airline_powerline_fonts = 1
 
 
 "---------- autoformat settings {{{
-let g:formatdef_clangformat_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=llvm'"
+let g:formatdef_clangformat_cpp = "'clang-format -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
 let g:formatters_cpp = ['clangformat_cpp']
-
-" let g:formatdef_myclangformat = "'clang-format -style=llvm AllowShortIfStatementsOnASingleLine=true AlwaysBreakTemplateDeclarations=true Standard=C++11 BreakBeforeBraces=Stroustrup  '"
-" let g:formatters_cpp = ['myclangformat']
-" let g:autoformat_autoindent = 0
-" let g:autoformat_retab = 0
-" let g:autoformat_remove_trailing_spaces = 0
-" -style=google IndentWidth=4 NamespaceIndentation=None'"
-" let g:formatter_clang-format_style= 'llvm'
 " }}}
 
 
