@@ -1,0 +1,25 @@
+---
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+Language: Cpp
+
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+TabWidth: 4
+MaxEmptyLinesToKeep: 4
+ColumnLimit: 110
+SpacesBeforeTrailingComments: 2
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+NamespaceIndentation : None
+Standard : Auto
+AlignTrailingComments : true
+AlwaysBreakTemplateDeclarations : true
+
+BreakBeforeBraces: Attach
+ObjCSpaceAfterProperty: true
+ObjCSpaceBeforeProtocolList: false
+PointerBindsToType: false
+UseTab: Never
+
