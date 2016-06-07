@@ -25,6 +25,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree' " tree explorer
 Plugin 'scrooloose/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 Plugin 'tpope/vim-fugitive' " git gui
+Plugin 'ervandew/supertab' " Supertab allows you to use <Tab> for all your insert completion needs
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder.
 Plugin 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
 Plugin 'vim-airline/vim-airline-themes' " airline themes
@@ -34,6 +35,8 @@ Plugin 'Chiel92/vim-autoformat' " Provide easy code formatting in Vim by integra
 Plugin 'octol/vim-cpp-enhanced-highlight' " smarter c++ highlight
 Plugin 'scrooloose/syntastic.git' " check syntax
 Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
+Plugin 'SirVer/ultisnips' " Snippets engine
+Plugin 'honza/vim-snippets' " Snippets are separated from the engine
 " }}}
 
 
@@ -46,8 +49,7 @@ filetype plugin indent on    " required
 
 "---------- Standard Vim settings {{{
 set list lcs=trail:·,tab:»·,eol:↵
-" VERY IMPORTANT!!!! when changing size of tabs, remember to change
-" autoformat tabs too
+" VERY IMPORTANT!!!! when changing size of tabs, remember to change autoformat tabs too
 set tabstop=4     " a tab is four spaces
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set softtabstop=4 " TODO: to be commented
@@ -121,10 +123,28 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/'
 " }}}
 
 
+"---------- Snippets and YouCompleteMe {{{
+let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
+let g:ycm_use_ultisnips_completer = 0 " Disable UltiSnips for YCM
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+" }}}
+
+
+
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
 :map <leader>x :q!<Enter>		" to close file
 :map <leader>hv :AV<Enter>		" a:  shortcut to switch to header file
 :map <leader>hi :IHT<Enter>		" a:  shortcut to open file over cursor
 :noremap <F5> :Autoformat<CR>	" autoformat: shortcut to autoformat file
+vnoremap <F5> :'<,'>Autoformat<CR>
+:noremap <leader>t :tabnew<CR>	" open a new tab
 " }}}
