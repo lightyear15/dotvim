@@ -131,7 +131,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/'
 
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
-:map <leader>x :q!<Enter>		" to close file
+:map <leader>x :q<Enter>		" to close file
 :map <leader>hv :AV<Enter>		" a:  shortcut to switch to header file
 :map <leader>hi :IHT<Enter>		" a:  shortcut to open file over cursor
 :noremap <F5> :Autoformat<CR>	" autoformat: shortcut to autoformat file
