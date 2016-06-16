@@ -5,7 +5,7 @@
 "---------- colors {{{
 " I ♥ colors
 syntax on
-colorscheme Tomorrow-Night-Bright
+" colorscheme Tomorrow-Night-Bright
 set t_Co=256
 " }}}
 
@@ -27,6 +27,7 @@ Plugin 'scrooloose/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 Plugin 'tpope/vim-fugitive' " git gui
 Plugin 'ervandew/supertab' " Supertab allows you to use <Tab> for all your insert completion needs
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder.
+Plugin 'benmills/vimux' " Run commands inside tmux window
 Plugin 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
 Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'rking/ag.vim' " the silver searcher
@@ -37,6 +38,7 @@ Plugin 'scrooloose/syntastic.git' " check syntax
 Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
 Plugin 'SirVer/ultisnips' " Snippets engine
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine
+Plugin 'Raimondi/delimitMate' " automatically close quotes, parens, brackets, etc.
 " }}}
 
 
@@ -50,20 +52,21 @@ filetype plugin indent on    " required
 "---------- Standard Vim settings {{{
 set list lcs=trail:·,tab:»·,eol:↵
 " VERY IMPORTANT!!!! when changing size of tabs, remember to change autoformat tabs too
-set tabstop=4     " a tab is four spaces
-set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
-set softtabstop=4 " TODO: to be commented
-set shiftwidth=4  " number of spaces to use for autoindenting
-set autoindent    " always set autoindenting on
-set copyindent    " copy the previous indentation on autoindenting
-set number        " always show line numbers
-set relativenumber "show line number relative to current line
-set showmatch     " set show matching parenthesis
-set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
-set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
-set hlsearch      " highlight search terms
-set incsearch     " show search matches as you type
+set tabstop=4       " a tab is four spaces
+set shiftround      " use multiple of shiftwidth when indenting with '<' and '>'
+set softtabstop=4   " TODO: to be commented
+set shiftwidth=4    " number of spaces to use for autoindenting
+set autoindent      " always set autoindenting on
+set copyindent      " copy the previous indentation on autoindenting
+set number          " always show line numbers
+set relativenumber  "show line number relative to current line
+set showmatch       " set show matching parenthesis
+set ignorecase      " ignore case when searching
+set smartcase       " ignore case if search pattern is all lowercase, case-sensitive otherwise
+set smarttab        " insert tabs on the start of a line according to shiftwidth, not tabstop
+set hlsearch        " highlight search terms
+set incsearch       " show search matches as you type
+set noro            " set no readonly
 " }}}
 
 
@@ -89,7 +92,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 
 "---------- Airline settings {{{
-			\s
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#fnamemod = ':p:t'
@@ -138,13 +140,14 @@ let g:UltiSnipsEditSplit="vertical"
 " }}}
 
 
-
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
 :map <leader>x :q<Enter>		" to close file
-:map <leader>hv :AV<Enter>		" a:  shortcut to switch to header file
-:map <leader>hi :IHT<Enter>		" a:  shortcut to open file over cursor
-:noremap <F5> :Autoformat<CR>	" autoformat: shortcut to autoformat file
+:map <F2> :AV<Enter>		" a:  shortcut to switch to header file
+:map <F3> :IHT<Enter>		" a:  shortcut to open file over cursor
 vnoremap <F5> :'<,'>Autoformat<CR>
+:noremap <F8> <Esc>:update<CR>:VimuxRunLastCommand<CR>	" Run last vimux command
 :noremap <leader>t :tabnew<CR>	" open a new tab
+:noremap <C-l> :tabn<CR>	" go to next tab
+:noremap <C-h> :tabp<CR>	" go to previous tab
 " }}}
