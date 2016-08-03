@@ -102,8 +102,11 @@ let g:airline_powerline_fonts = 1
 
 
 "---------- autoformat settings {{{
-let g:formatdef_clangformat_cpp = "'clang-format -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
+let g:formatdef_clangformat_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=file'"
 let g:formatters_cpp = ['clangformat_cpp']
+let g:formatdef_clangformat_c = "'clang-format -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
+let g:formatters_c = ['clangformat_c']
+
 " }}}
 
 
