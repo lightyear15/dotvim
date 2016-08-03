@@ -129,7 +129,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/'
 
 
 "---------- Snippets and YouCompleteMe {{{
-let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
+" let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
 let g:ycm_use_ultisnips_completer = 0 " Disable UltiSnips for YCM
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -145,10 +145,9 @@ let g:UltiSnipsEditSplit="vertical"
 
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
-:map <leader>x :q!<Enter>		" to close file
+:map <leader>x :q<Enter>		" to close file
 :map <F2> :AV<Enter>		" a:  shortcut to switch to header file
 :map <F3> :IHT<Enter>		" a:  shortcut to open file over cursor
-:noremap <F5> :Autoformat<CR>	" autoformat: shortcut to autoformat file
 vnoremap <F5> :'<,'>Autoformat<CR>
 :noremap <F8> <Esc>:update<CR>:VimuxRunLastCommand<CR>	" Run last vimux command
 :noremap <leader>t :tabnew<CR>	" open a new tab
