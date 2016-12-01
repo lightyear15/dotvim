@@ -1,5 +1,5 @@
 "---------- first of all: leader map {{{
-:let mapleader = "\\"
+:let mapleader = "\`"
 " }}}
 
 "---------- colors {{{
@@ -52,10 +52,10 @@ filetype plugin indent on    " required
 "---------- Standard Vim settings {{{
 set list lcs=trail:·,tab:»·,eol:↵
 " VERY IMPORTANT!!!! when changing size of tabs, remember to change autoformat tabs too
-set tabstop=4       " a tab is four spaces
+set tabstop=8       " a tab is four spaces
 set shiftround      " use multiple of shiftwidth when indenting with '<' and '>'
-set softtabstop=4   " TODO: to be commented
-set shiftwidth=4    " number of spaces to use for autoindenting
+set softtabstop=8   " TODO: to be commented
+set shiftwidth=8    " number of spaces to use for autoindenting
 set autoindent      " always set autoindenting on
 set copyindent      " copy the previous indentation on autoindenting
 set number          " always show line numbers
@@ -73,6 +73,7 @@ set noro            " set no readonly
 "---------- Turn off swap files and backups {{{
 set nobackup
 set nowritebackup
+set noswapfile
 " }}}
 
 
@@ -153,4 +154,10 @@ vnoremap <F5> :'<,'>Autoformat<CR>
 :noremap <leader>t :tabnew<CR>	" open a new tab
 :noremap <C-l> :tabn<CR>	" go to next tab
 :noremap <C-h> :tabp<CR>	" go to previous tab
+:noremap <C-v> :vsplit<CR> 	" split screen vertically
+:nnoremap <F7> :TlistToggle<CR> 	" toggle tag list
+:nnoremap <F8> :YcmComplete GoTo<CR> 	" goto to include/definition/declaration
+:nnoremap <F9> <C-o> 	" go back after a goto
+
+
 " }}}
