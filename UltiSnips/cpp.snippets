@@ -1,0 +1,69 @@
+## Headers {{{
+################################################################################
+snippet youview "author, date, copyright"
+/**
+* `!p snip.rv = fn`
+*
+*  Copyright `!v strftime("%Y")`, Youview TV Ltd.
+*/
+
+endsnippet
+
+################################################################################
+snippet elemonce "once barrier with element name"
+#ifndef  `!p
+import sys, os
+sys.path.append('/home/giulio/sources/devarch')
+from pythonUtils.folders_utils import *
+from pythonUtils.specific_utils import *
+snip.rv = getHeaderBarrier(path, fn)
+`
+#define `!p
+import sys, os
+sys.path.append('/home/giulio/sources/devarch')
+from pythonUtils.folders_utils import *
+from pythonUtils.specific_utils import *
+snip.rv = getHeaderBarrier(path, fn)
+`
+
+
+
+#endif // `!p
+import sys, os
+sys.path.append('/home/giulio/sources/devarch')
+from pythonUtils.folders_utils import *
+from pythonUtils.specific_utils import *
+snip.rv = getHeaderBarrier(path, fn)
+`
+endsnippet
+# }}}
+
+
+################################################################################
+snippet lincc
+#include "${1}"
+endsnippet
+
+
+# Documentation {{{
+################################################################################
+snippet doxygroup "adding doxygen group label"
+/** @addtogroup `!p
+import sys, os
+sys.path.append('/home/giulio/sources/devarch')
+from pythonUtils.folders_utils import *
+from pythonUtils.specific_utils import *
+_, el, _ = getElementComponentNames(path)
+snip.rv = el
+`
+ *  @{
+ */
+
+
+
+
+/** @}*/
+endsnippet
+
+
+

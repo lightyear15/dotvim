@@ -5,7 +5,7 @@ IndentWidth: 4
 ---
 Language: Cpp
 MaxEmptyLinesToKeep: 4
-ColumnLimit: 180
+ColumnLimit: 110
 SpacesBeforeTrailingComments: 2
 DerivePointerAlignment: false
 NamespaceIndentation: None
@@ -25,6 +25,8 @@ PointerBindsToType: false
 UseTab: Never
 SpacesInAngles: false
 SpaceBeforeParens: Never
+BreakConstructorInitializersBeforeComma: true
+AllowShortFunctionsOnASingleLine: false
 ---
 #Language: C
 #UseTab: Always

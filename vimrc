@@ -9,6 +9,9 @@ syntax on
 set t_Co=256
 " }}}
 
+"---------- misc {{{
+au FileType gitcommit set tw=72
+" }}}
 
 "---------- vundle {{{
 set nocompatible              " required
@@ -35,10 +38,15 @@ Plugin 'a.vim' " Alternate files quickly (header/implementation etc...)
 Plugin 'Chiel92/vim-autoformat' " Provide easy code formatting in Vim by integrating existing code formatters.
 Plugin 'octol/vim-cpp-enhanced-highlight' " smarter c++ highlight
 Plugin 'scrooloose/syntastic.git' " check syntax
-Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
+" Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
 Plugin 'SirVer/ultisnips' " Snippets engine
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine
 Plugin 'Raimondi/delimitMate' " automatically close quotes, parens, brackets, etc.
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'vim-scripts/DoxygenToolkit.vim' " doxygen documentation
+Plugin 'vim-scripts/h2cppx' " from header to cpp
+Plugin 'airblade/vim-gitgutter' " highlight git changed lines
+
 " }}}
 
 
@@ -52,10 +60,11 @@ filetype plugin indent on    " required
 "---------- Standard Vim settings {{{
 set list lcs=trail:·,tab:»·,eol:↵
 " VERY IMPORTANT!!!! when changing size of tabs, remember to change autoformat tabs too
-set tabstop=8       " a tab is four spaces
+set tabstop=4       " a tab is four spaces
 set shiftround      " use multiple of shiftwidth when indenting with '<' and '>'
-set softtabstop=8   " TODO: to be commented
-set shiftwidth=8    " number of spaces to use for autoindenting
+set softtabstop=4   " TODO: to be commented
+set expandtab       " spaces instead of tabs
+set shiftwidth=4    " number of spaces to use for autoindenting
 set autoindent      " always set autoindenting on
 set copyindent      " copy the previous indentation on autoindenting
 set number          " always show line numbers
@@ -78,17 +87,18 @@ set noswapfile
 
 
 "---------- autoreload vimrc on changes {{{
-" $MYVIMRC (~/.vimrc) and $MYGVIMRC (~/.gvimrc) must exists or an error will appear
-augroup AutoreloadVimrc
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc nested so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END " }
 " }}}
+
 
 
 "---------- NERDTree settings {{{
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeWinSize = 60
 " }}}
 
 
@@ -103,9 +113,9 @@ let g:airline_powerline_fonts = 1
 
 
 "---------- autoformat settings {{{
-let g:formatdef_clangformat_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=file'"
+let g:formatdef_clangformat_cpp = "'clang-format-3.8 -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=file'"
 let g:formatters_cpp = ['clangformat_cpp']
-let g:formatdef_clangformat_c = "'clang-format -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
+let g:formatdef_clangformat_c = "'clang-format-3.8 -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
 let g:formatters_c = ['clangformat_c']
 
 " }}}
@@ -126,11 +136,14 @@ let g:syntastic_cpp_clang_check_args = ' -std=c++11 -stdlib=libc++'
 
 "---------- Syntastic settings {{{
 let g:ycm_global_ycm_extra_conf = '~/.vim/'
+let g:syntastic_cpp_compiler = '/usr/bin/clang'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 " }}}
 
 
 "---------- Snippets and YouCompleteMe {{{
-" let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
+let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
+
 let g:ycm_use_ultisnips_completer = 0 " Disable UltiSnips for YCM
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -141,23 +154,32 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
+let g:ycm_min_num_of_chars_for_completion = 3
+" }}}
+
+
+"---------- Taglist settings {{{
+let g:Tlist_Use_Right_Window = 1
+let g:Tlist_WinWidth = 60
 " }}}
 
 
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
 :map <leader>x :q<Enter>		" to close file
-:map <F2> :AV<Enter>		" a:  shortcut to switch to header file
-:map <F3> :IHT<Enter>		" a:  shortcut to open file over cursor
-vnoremap <F5> :'<,'>Autoformat<CR>
-:noremap <F8> <Esc>:update<CR>:VimuxRunLastCommand<CR>	" Run last vimux command
 :noremap <leader>t :tabnew<CR>	" open a new tab
 :noremap <C-l> :tabn<CR>	" go to next tab
 :noremap <C-h> :tabp<CR>	" go to previous tab
 :noremap <C-v> :vsplit<CR> 	" split screen vertically
-:nnoremap <F7> :TlistToggle<CR> 	" toggle tag list
-:nnoremap <F8> :YcmComplete GoTo<CR> 	" goto to include/definition/declaration
-:nnoremap <F9> <C-o> 	" go back after a goto
-
+:noremap <C-t> :TlistToggle<CR> 	" open/close side tag list
+:noremap <F2> :A<CR>		" a:  shortcut to switch to header file
+:noremap <F3> :IHT<CR>		" a:  shortcut to open file over cursor
+:noremap <F4> :Dox<CR>		" doxygen documentation
+:noremap <F5> :Autoformat<CR>		"clang-format
+:noremap <F6> :YcmForceCompileAndDiagnostics<CR>		"force clang check
+:noremap <F8> :YcmComplete GoTo<CR>		" goto to include/definition/declaration
+:noremap <F9>  :CpH2cppx<ESC>
+:noremap <F11> :VimuxPromptCommand<CR>		"tmux set command
+:noremap <F12> <Esc>:update<CR>:VimuxRunLastCommand<CR>		" Run last vimux command
 
 " }}}
