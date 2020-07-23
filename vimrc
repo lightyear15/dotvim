@@ -5,8 +5,8 @@
 "---------- colors {{{
 " I ♥ colors
 syntax on
-" colorscheme Tomorrow-Night-Bright
-set t_Co=256
+"colorscheme Tomorrow-Night-Bright
+"set t_Co=256
 " }}}
 
 "---------- misc {{{
@@ -17,10 +17,16 @@ au FileType gitcommit set tw=72
 set nocompatible              " required
 filetype off                  " required
 " Initialize Vundle plugin manager
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+" }}}
+ 
+
+"---------- vim-ale --- needed here before plugin is loaded {{{
+let g:ale_completion_enabled = 1
+let g:ale_set_baloons = 1
 " }}}
 
 
@@ -30,23 +36,19 @@ Plugin 'scrooloose/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 Plugin 'tpope/vim-fugitive' " git gui
 Plugin 'ervandew/supertab' " Supertab allows you to use <Tab> for all your insert completion needs
 Plugin 'ctrlpvim/ctrlp.vim' " Fuzzy file, buffer, mru, tag, etc finder.
-Plugin 'benmills/vimux' " Run commands inside tmux window
+"Plugin 'benmills/vimux' " Run commands inside tmux window
 Plugin 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
 Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'rking/ag.vim' " the silver searcher
-Plugin 'a.vim' " Alternate files quickly (header/implementation etc...)
-Plugin 'Chiel92/vim-autoformat' " Provide easy code formatting in Vim by integrating existing code formatters.
-Plugin 'octol/vim-cpp-enhanced-highlight' " smarter c++ highlight
-Plugin 'scrooloose/syntastic.git' " check syntax
-" Plugin 'Valloric/YouCompleteMe' " A code-completion engine for Vim
-Plugin 'SirVer/ultisnips' " Snippets engine
+Plugin 'Chiel92/vim-autoformat' " autoformatting code
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine
 Plugin 'Raimondi/delimitMate' " automatically close quotes, parens, brackets, etc.
-Plugin 'vim-scripts/taglist.vim'
-Plugin 'vim-scripts/DoxygenToolkit.vim' " doxygen documentation
-Plugin 'vim-scripts/h2cppx' " from header to cpp
+Plugin 'tpope/vim-surround' " put parenthesis around selection
 Plugin 'airblade/vim-gitgutter' " highlight git changed lines
-
+Plugin 'lightyear15/taglist.vim' " hopefully
+Plugin 'dense-analysis/ale' "vim support for linters
+Plugin 'junegunn/vader.vim' "vim test framework
+"Plugin 'fatih/vim-go' " vim-go plugin
 " }}}
 
 
@@ -76,6 +78,7 @@ set smarttab        " insert tabs on the start of a line according to shiftwidth
 set hlsearch        " highlight search terms
 set incsearch       " show search matches as you type
 set noro            " set no readonly
+set clipboard=unnamedplus
 " }}}
 
 
@@ -92,7 +95,6 @@ augroup reload_vimrc " {
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END " }
 " }}}
-
 
 
 "---------- NERDTree settings {{{
@@ -112,74 +114,38 @@ let g:airline_powerline_fonts = 1
 " }}}
 
 
-"---------- autoformat settings {{{
-let g:formatdef_clangformat_cpp = "'clang-format-3.8 -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=file'"
-let g:formatters_cpp = ['clangformat_cpp']
-let g:formatdef_clangformat_c = "'clang-format-3.8 -style=file -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').''"
-let g:formatters_c = ['clangformat_c']
-
+"---------- vim-ale settings {{{
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 1
+let g:ale_linters = {
+            \'go' :['gofmt', 'gopls', 'gobuild', 'golint', 'goimports']
+            \} 
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_rust_cargo_use_clippy = 1
 " }}}
 
-
-"---------- Syntastic settings {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_checkers = ['clang_check']
-let g:syntastic_cpp_clang_check_args = ' -std=c++11 -stdlib=libc++'
-" }}}
-
-
-"---------- Syntastic settings {{{
-let g:ycm_global_ycm_extra_conf = '~/.vim/'
-let g:syntastic_cpp_compiler = '/usr/bin/clang'
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-" }}}
-
-
-"---------- Snippets and YouCompleteMe {{{
-let g:ycm_confirm_extra_conf = 0 " load local ycm configuration silently.
-
-let g:ycm_use_ultisnips_completer = 0 " Disable UltiSnips for YCM
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsEditSplit="vertical"
-let g:ycm_min_num_of_chars_for_completion = 3
-" }}}
-
-
-"---------- Taglist settings {{{
+"---------- vim-taglist settings {{{
 let g:Tlist_Use_Right_Window = 1
 let g:Tlist_WinWidth = 60
 " }}}
-
 
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
 :map <leader>x :q<Enter>		" to close file
 :noremap <leader>t :tabnew<CR>	" open a new tab
 :noremap <C-l> :tabn<CR>	" go to next tab
+:noremap <C-s> :CtrlPTag<cr>
+:inoremap <C-e> <C-o>A " exit from parens
 :noremap <C-h> :tabp<CR>	" go to previous tab
-:noremap <C-v> :vsplit<CR> 	" split screen vertically
 :noremap <C-t> :TlistToggle<CR> 	" open/close side tag list
-:noremap <F2> :A<CR>		" a:  shortcut to switch to header file
-:noremap <F3> :IHT<CR>		" a:  shortcut to open file over cursor
-:noremap <F4> :Dox<CR>		" doxygen documentation
-:noremap <F5> :Autoformat<CR>		"clang-format
-:noremap <F6> :YcmForceCompileAndDiagnostics<CR>		"force clang check
-:noremap <F8> :YcmComplete GoTo<CR>		" goto to include/definition/declaration
-:noremap <F9>  :CpH2cppx<ESC>
-:noremap <F11> :VimuxPromptCommand<CR>		"tmux set command
-:noremap <F12> <Esc>:update<CR>:VimuxRunLastCommand<CR>		" Run last vimux command
-
+:noremap <F2> ::ALENext<CR>		" jump to next error
+:noremap <F5> ::ALERename<CR>		" rename variable under cursor
+:noremap <F5> ::ALERename<CR>		" rename variable under cursor
+:noremap <F6> :Autoformat<CR>		" Formatting code
+:noremap <F7> :ALEGoToDefinition<CR>		" Jump to definition
+:noremap <F8> ::ALEFindReferences<CR>		" Jump to definition
+:noremap <F9> ::ALESymbolSearch<CR>		" Jump to definition
 " }}}
+
