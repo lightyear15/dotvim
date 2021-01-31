@@ -118,18 +118,22 @@ let g:airline_powerline_fonts = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 1
 let g:ale_linters = {
-            \'go' :['gofmt', 'gopls', 'gobuild', 'golint', 'goimports']
+            \'go' :['gofmt', 'gopls', 'gobuild', 'golint', 'goimports'],
+            \'rust' :['analyzer', 'cargo', 'rustc'],
+            \'python' :['pyls', 'mypy', 'pylint', 'pyflakes']
             \} 
 let g:ale_sign_error = '⤫'
 let g:ale_sign_warning = '⚠'
 let g:airline#extensions#ale#enabled = 1
 let g:ale_rust_cargo_use_clippy = 1
+let g:python_pylint_executable = 'pyls.pylint'
+let g:python_pyflakes_executable = 'pyls.pyflakes'
 " }}}
 
 "---------- vim-taglist settings {{{
 let g:Tlist_Use_Right_Window = 1
 let g:Tlist_WinWidth = 60
-" }}}
+" }}} 
 
 "---------- shortcut settings {{{
 :map <leader>s :w<Enter>		" to save file
@@ -141,8 +145,8 @@ let g:Tlist_WinWidth = 60
 :noremap <C-h> :tabp<CR>	" go to previous tab
 :noremap <C-t> :TlistToggle<CR> 	" open/close side tag list
 :noremap <F2> ::ALENext<CR>		" jump to next error
-:noremap <F5> ::ALERename<CR>		" rename variable under cursor
-:noremap <F5> ::ALERename<CR>		" rename variable under cursor
+:noremap <F3> ::ALEHover<CR>		" jump to next error
+:noremap <F5> :ALERename<CR>
 :noremap <F6> :Autoformat<CR>		" Formatting code
 :noremap <F7> :ALEGoToDefinition<CR>		" Jump to definition
 :noremap <F8> ::ALEFindReferences<CR>		" Jump to definition
